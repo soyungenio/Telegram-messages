@@ -6,7 +6,9 @@ from pytg.receiver import Receiver
 receiver = Receiver(host="127.0.0.1", port=5698)
 sender = Sender(host="127.0.0.1", port=5698)
 
-#sender.send_msg("▒^▒има1", "Hello World!")
+
+tosend = "TestPriem"
+frompriem = ["Группа мям", "Тест группа"]
 
 @coroutine
 def main_loop():
@@ -14,22 +16,24 @@ def main_loop():
         while True: # loop for a session.
             msg = (yield) # it waits until it got a message, stored now in msg.
             print("Message: ", msg)
-            if "text" in msg:
-                if msg["own"] is False and  "message" in str(msg):
-                    sender.send_msg("Marat_Gaptullin", msg.text, enable_preview=True)
-            elif "photo" in str(msg):   
-                if msg["own"] is False and  "message" in str(msg):
-                    res = sender.load_photo(msg["id"])
-                    sender.send_photo("Marat_Gaptullin", res)
-            elif "video" in str(msg):
-                if msg["own"] is False and  "message" in str(msg):
-                    res = sender.load_video(msg["id"])
-                    sender.send_video("Marat_Gaptullin", res)
-             elif "document" in str(msg):
-                if msg["own"] is False and  "message" in str(msg):
-                    res = sender.load_document(msg["id"])
-                    sender.send_document("Marat_Gaptullin", res)
-            # do more stuff here!
+            if "message" in str(msg):
+                for priem in frompriem:
+                    if msg["receiver"]["name"] in priem:
+                        if "text" in msg:
+                            if msg["own"] is False:
+                                sender.send_msg(placesend, msg.text, enable_preview=True)
+                        elif "photo" in str(msg):
+                            if msg["own"] is False:
+                                res = sender.load_photo(msg["id"])
+                                sender.send_photo(placesend, res)
+                        elif "video" in str(msg):
+                            if msg["own"] is False:
+                                res = sender.load_video(msg["id"])
+                                sender.send_video(placesend, res)
+                        elif "document" in str(msg):
+                            if msg["own"] is False:
+                                res = sender.load_document(msg["id"])
+                                sender.send_document(placesend, res)
 
     except GeneratorExit:
         # the generator (pytg) exited (got a KeyboardIterrupt).
@@ -40,7 +44,6 @@ def main_loop():
     else:
         # the loop exited without exception, becaues _quit was set True
         pass
-#
 
 # start the Receiver, so we can get messages!
 receiver.start()
