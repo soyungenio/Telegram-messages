@@ -3,17 +3,31 @@ from pytg.utils import coroutine
 
 from pytg.sender import Sender
 from pytg.receiver import Receiver
-receiver = Receiver(host="localhost", port=4458)
-sender = Sender(host="localhost", port=4458)
+receiver = Receiver(host="127.0.0.1", port=5698)
+sender = Sender(host="127.0.0.1", port=5698)
 
 #sender.send_msg("Дима1", "Hello World!")
 
 @coroutine 
 def main_loop():
-    msg = (yield) # it waits until it got a message, stored now in msg.
-    print("Message: ", msg)
-		# do more stuff here!
-	#
+    try:
+        while True: # loop for a session.
+            msg = (yield) # it waits until it got a message, stored now in msg.
+            print("Message: ", msg)
+            if "text" in msg:
+                print("Message: ", msg.text)
+            
+            # do more stuff here!
+
+    except GeneratorExit:
+        # the generator (pytg) exited (got a KeyboardIterrupt).
+        pass
+    except KeyboardInterrupt:
+        # we got a KeyboardIterrupt(Ctrl+C)
+        pass
+    else:
+        # the loop exited without exception, becaues _quit was set True
+    pass
 #
 
 # start the Receiver, so we can get messages!
