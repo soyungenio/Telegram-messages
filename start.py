@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from pytg import Telegram
 tg = Telegram(
 	telegram="/root/tg/bin/telegram-cli",
