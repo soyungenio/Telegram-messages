@@ -8,7 +8,7 @@ tg = Telegram(
 receiver = tg.receiver
 sender = tg.sender
 
-sender.send_msg("Дима1", "Hello World!")
+#sender.send_msg("Дима1", "Hello World!")
 
 @coroutine 
 def main_loop():
