@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 from pytg.utils import coroutine
 
 from pytg.sender import Sender
@@ -6,21 +6,23 @@ from pytg.receiver import Receiver
 receiver = Receiver(host="127.0.0.1", port=5698)
 sender = Sender(host="127.0.0.1", port=5698)
 
-#sender.send_msg("Дима1", "Hello World!")
+#sender.send_msg("▒^▒има1", "Hello World!")
 
-@coroutine 
+@coroutine
 def main_loop():
     try:
         while True: # loop for a session.
             msg = (yield) # it waits until it got a message, stored now in msg.
             print("Message: ", msg)
-            if "text" in msg:
-                if msg["own"] is False and msg["own"] is 'message':
-                    sender.send_msg("Дима1", "Hello World!")
-            else if msg["type"]["photo"]:
-                res = receiver.load_photo(msg[id])
-                print(res)
-            
+            if msg["own"] is False and  "message" in str(msg):
+                if "text" in msg:
+                        sender.send_msg("Marat_Gaptullin", msg.text, enable_preview=True)
+                elif "photo" in str(msg):   
+                        res = sender.load_photo(msg["id"])
+                        sender.send_photo("Dima1", res)
+                elif "video" in str(msg):
+                        res = sender.load_video(msg["id"])
+                        sender.send_video("Dima1", res)
             # do more stuff here!
 
     except GeneratorExit:
