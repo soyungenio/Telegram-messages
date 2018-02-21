@@ -15,7 +15,11 @@ def main_loop():
             msg = (yield) # it waits until it got a message, stored now in msg.
             print("Message: ", msg)
             if "text" in msg:
-                print("Message: ", msg.text)
+                if msg["own"] is False and msg["own"] is 'message':
+                    sender.send_msg("Дима1", "Hello World!")
+            else if msg["type"]["photo"]:
+                res = receiver.load_photo(msg[id])
+                print(res)
             
             # do more stuff here!
 
@@ -27,7 +31,7 @@ def main_loop():
         pass
     else:
         # the loop exited without exception, becaues _quit was set True
-    pass
+        pass
 #
 
 # start the Receiver, so we can get messages!
