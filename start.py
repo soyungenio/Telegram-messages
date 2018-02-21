@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*- 
-from pytg import Telegram
 from pytg.utils import coroutine
 
-tg = Telegram(
-	telegram="/root/tg/bin/telegram-cli",
-	pubkey_file="/root/tg/tg-server.pub")
-receiver = tg.receiver
-sender = tg.sender
+from pytg.sender import Sender
+from pytg.receiver import Receiver
+receiver = Receiver(host="localhost", port=4458)
+sender = Sender(host="localhost", port=4458)
 
 #sender.send_msg("Дима1", "Hello World!")
 
 @coroutine 
 def main_loop():
-	while not QUIT:
-		msg = (yield) # it waits until it got a message, stored now in msg.
-		print("Message: ", msg.text)
+    msg = (yield) # it waits until it got a message, stored now in msg.
+    print("Message: ", msg)
 		# do more stuff here!
 	#
 #
