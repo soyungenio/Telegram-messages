@@ -25,6 +25,10 @@ def main_loop():
                 if msg["own"] is False and  "message" in str(msg):
                     res = sender.load_video(msg["id"])
                     sender.send_video("Marat_Gaptullin", res)
+             elif "document" in str(msg):
+                if msg["own"] is False and  "message" in str(msg):
+                    res = sender.load_document(msg["id"])
+                    sender.send_document("Marat_Gaptullin", res)
             # do more stuff here!
 
     except GeneratorExit:
