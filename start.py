@@ -14,15 +14,17 @@ def main_loop():
         while True: # loop for a session.
             msg = (yield) # it waits until it got a message, stored now in msg.
             print("Message: ", msg)
-            if msg["own"] is False and  "message" in str(msg):
-                if "text" in msg:
-                        sender.send_msg("Marat_Gaptullin", msg.text, enable_preview=True)
-                elif "photo" in str(msg):   
-                        res = sender.load_photo(msg["id"])
-                        sender.send_photo("Dima1", res)
-                elif "video" in str(msg):
-                        res = sender.load_video(msg["id"])
-                        sender.send_video("Dima1", res)
+            if "text" in msg:
+                if msg["own"] is False and  "message" in str(msg):
+                    sender.send_msg("Marat_Gaptullin", msg.text, enable_preview=True)
+            elif "photo" in str(msg):   
+                if msg["own"] is False and  "message" in str(msg):
+                    res = sender.load_photo(msg["id"])
+                    sender.send_photo("Marat_Gaptullin", res)
+            elif "video" in str(msg):
+                if msg["own"] is False and  "message" in str(msg):
+                    res = sender.load_video(msg["id"])
+                    sender.send_video("Marat_Gaptullin", res)
             # do more stuff here!
 
     except GeneratorExit:
