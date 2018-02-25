@@ -7,7 +7,7 @@ receiver = Receiver(host="127.0.0.1", port=5698)
 sender = Sender(host="127.0.0.1", port=5698)
 
 
-tosend = "TestPriem"
+tosend = ["TestPriem"]
 frompriem = ["Группа мям", "Тест группа"]
 
 @coroutine
@@ -20,20 +20,24 @@ def main_loop():
                 for priem in frompriem:
                     if msg["receiver"]["name"] in priem:
                         if "text" in msg:
-                            if msg["own"] is False:
-                                sender.send_msg(placesend, msg.text, enable_preview=True)
+                            if msg["own"] is True:
+                                for send in tosend:
+                                    sender.send_msg(send, msg.text, enable_preview=True)
                         elif "photo" in str(msg):
-                            if msg["own"] is False:
+                            if msg["own"] is True:
                                 res = sender.load_photo(msg["id"])
-                                sender.send_photo(placesend, res)
+                                for send in tosend:
+                                    sender.send_photo(send, res)
                         elif "video" in str(msg):
-                            if msg["own"] is False:
+                            if msg["own"] is True:
                                 res = sender.load_video(msg["id"])
-                                sender.send_video(placesend, res)
+                                for send in tosend:
+                                    sender.send_video(send, res)
                         elif "document" in str(msg):
-                            if msg["own"] is False:
+                            if msg["own"] is True:
                                 res = sender.load_document(msg["id"])
-                                sender.send_document(placesend, res)
+                                for send in tosend:
+                                    sender.send_document(send, res)
 
     except GeneratorExit:
         # the generator (pytg) exited (got a KeyboardIterrupt).
