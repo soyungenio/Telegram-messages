@@ -7,8 +7,9 @@ receiver = Receiver(host="127.0.0.1", port=5698)
 sender = Sender(host="127.0.0.1", port=5698)
 
 
-tosend = ["TestPriem"]
+tosend = ["гряяя"]
 frompriem = ["Группа мям", "Тест группа"]
+sender.dialog_list()
 
 @coroutine
 def main_loop():
@@ -20,24 +21,20 @@ def main_loop():
                 for priem in frompriem:
                     if msg["receiver"]["name"] in priem:
                         if "text" in msg:
-                            if msg["own"] is True:
-                                for send in tosend:
-                                    sender.send_msg(send, msg.text, enable_preview=True)
+                            for send in tosend:
+                                sender.send_msg(send, msg.text, enable_preview=True)
                         elif "photo" in str(msg):
-                            if msg["own"] is True:
-                                res = sender.load_photo(msg["id"])
-                                for send in tosend:
-                                    sender.send_photo(send, res)
+                            res = sender.load_photo(msg["id"])
+                            for send in tosend:
+                                sender.send_photo(send, res)
                         elif "video" in str(msg):
-                            if msg["own"] is True:
-                                res = sender.load_video(msg["id"])
-                                for send in tosend:
-                                    sender.send_video(send, res)
+                            res = sender.load_video(msg["id"])
+                            for send in tosend:
+                                sender.send_video(send, res)
                         elif "document" in str(msg):
-                            if msg["own"] is True:
-                                res = sender.load_document(msg["id"])
-                                for send in tosend:
-                                    sender.send_document(send, res)
+                            res = sender.load_document(msg["id"])
+                            for send in tosend:
+                                sender.send_document(send, res)
 
     except GeneratorExit:
         # the generator (pytg) exited (got a KeyboardIterrupt).
